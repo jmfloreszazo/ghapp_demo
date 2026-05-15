@@ -1,6 +1,8 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Parsing;
+using RecursiveSearch;
 
+// A simple command-line tool to recursively search for files in a folder, with error handling for inaccessible directories.
 var folderOption = new Option<DirectoryInfo>("--folder")
 {
     Description = "Root folder path to search in.",
@@ -36,7 +38,7 @@ rootCommand.SetAction((ParseResult result) =>
     Console.WriteLine();
 
     int count = 0;
-    foreach (var file in EnumerateFilesSafe(folder.FullName, fileName))
+    foreach (var file in FileSearcher.EnumerateFilesSafe(folder.FullName, fileName))
     {
         Console.WriteLine(file);
         count++;
@@ -48,30 +50,3 @@ rootCommand.SetAction((ParseResult result) =>
 });
 
 return rootCommand.Parse(args).Invoke();
-
-static IEnumerable<string> EnumerateFilesSafe(string root, string pattern)
-{
-    var queue = new Queue<string>();
-    queue.Enqueue(root);
-
-    while (queue.Count > 0)
-    {
-        var dir = queue.Dequeue();
-
-        IEnumerable<string> files = [];
-        try { files = Directory.EnumerateFiles(dir, pattern); }
-        catch (Exception ex) when (ex is UnauthorizedAccessException or IOException)
-        { Console.Error.WriteLine($"[skipped] {dir}: {ex.Message}"); }
-
-        foreach (var file in files)
-            yield return file;
-
-        IEnumerable<string> subDirs = [];
-        try { subDirs = Directory.EnumerateDirectories(dir); }
-        catch (Exception ex) when (ex is UnauthorizedAccessException or IOException)
-        { Console.Error.WriteLine($"[skipped] {dir}: {ex.Message}"); }
-
-        foreach (var sub in subDirs)
-            queue.Enqueue(sub);
-    }
-}
