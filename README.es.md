@@ -435,6 +435,28 @@ Otro acierto de diseño que pasa desapercibido: **la app no impone un flujo úni
 
 No es un walled garden. Es un hub que conecta con las herramientas que ya usas, pero que puede funcionar completamente solo si lo dejas.
 
+### ✨ La nueva ventana de Agentes en VS Code (Preview)
+
+![Ventana de Agentes en VS Code](img/new_feature.jpg)
+
+Microsoft acaba de soltar otra pieza que encaja perfectamente en este flujo: la **Agents window** de VS Code, una ventana **dedicada y desacoplada del editor** pensada para un workflow agent-first nativo dentro de VS Code.
+
+🔗 Documentación oficial: [code.visualstudio.com/docs/copilot/agents/agents-window](https://code.visualstudio.com/docs/copilot/agents/agents-window)
+
+Qué aporta y por qué es relevante para lo que cuenta esta guía:
+
+- **Ventana independiente del editor** — se abre con `code --agents` o desde el botón *Open in Agents*. Convive con tu VS Code normal sin ensuciar el espacio de trabajo principal.
+- **Sesiones compartidas** — misma sesión de Copilot CLI, Copilot Cloud o Claude agent en la app, en VS Code y en la ventana de Agentes. Sin duplicar contexto, sin perder historial.
+- **Multi-proyecto en paralelo** — listado de sesiones agrupado por workspace; saltas entre proyectos sin abrir una ventana por cada uno.
+- **Worktree o folder isolation** — las mismas garantías de aislamiento que ya hemos visto en el Paso 5, pero seleccionables al crear cada sesión.
+- **Sub-sesiones** — lanzar tareas paralelas dentro del mismo worktree sin contaminar el chat principal.
+- **Sesiones remotas via SSH o dev tunnel** — el agente corre en otra máquina (hardware especializado, entornos específicos) y tú solo supervisas.
+- **Panel de Changes con diff, Add Feedback, Commit/Merge/Discard** — revisión y aprobación integradas, sin saltar a otra herramienta.
+- **Tasks, terminal integrada y navegador integrado** — validas el cambio (build, tests, `localhost`) sin salir de la ventana.
+- **Customizaciones a mano** — Agents, Skills, Instructions, Hooks, MCP Servers y Plugins en un panel dedicado.
+
+En la práctica refuerza exactamente la tesis de esta guía: **puedes elegir dónde quieres vivir** — la GitHub Copilot App, VS Code editor, la nueva Agents window, terminal, GitHub.com o móvil— y la sesión te sigue. Es la pieza que faltaba para un agent-first realmente integrado dentro del editor.
+
 ### Conclusión
 
 Microsoft y GitHub tenían la plataforma. Siempre la tuvieron. Lo que les faltaba era la capa agéntica que la unificara. Ahora la tienen, y la han construido de forma que los competidores no pueden replicar simplemente añadiendo features: necesitarían tener GitHub. Y GitHub solo hay uno.
